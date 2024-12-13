@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TestApp.Data;
 using TestApp.Models;
@@ -18,13 +19,19 @@ public class ItemController : Controller
 
     public async  Task<IActionResult> Index()
     {
-        var items = await _context.Items.ToListAsync();
+        var items = await _context.Items.
+        Include(s => s.SerialNumber).
+        Include(g => g.Catogery).
+        Include(ic => ic.ItemClients).
+        ThenInclude(c => c.Client).
+        ToListAsync();
         return View(items);
     }
 
 
     public IActionResult Create()
     {
+        ViewData["Catogery"] = new SelectList(_context.Catogery, "Id", "Name");
         return View();
     }
     [HttpPost]
@@ -32,7 +39,7 @@ public class ItemController : Controller
     // public async Task<IActionResult> Create([Bind("Id, name, price")] Item item)
     // Without Using Bind as saying all Item fields
     // public async Task<IActionResult> Create(Item item)
-    public async Task<IActionResult> Create([Bind("Id, name, price")] Item item)
+    public async Task<IActionResult> Create([Bind("Id, name, price, CatogeryId")] Item item)
     {
         if (ModelState.IsValid)
         {
@@ -49,6 +56,8 @@ public class ItemController : Controller
         {
             return NotFound();
         }
+        ViewData["Catogery"] = new SelectList(_context.Catogery, "Id", "Name");
+
         var item = await _context.Items.FindAsync(id);
         if (item == null)
         {
@@ -58,7 +67,7 @@ public class ItemController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit(int id, [Bind("Id, name, price")] Item item)
+    public async Task<IActionResult> Edit(int id, [Bind("Id, name, price, CatogeryId")] Item item)
     {
         if (id != item.Id)
         {
@@ -110,6 +119,10 @@ public class ItemController : Controller
     [HttpPost, ActionName("Delete")]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
+        if (id == null)
+        {
+            return NotFound();
+        }
         var item = await _context.Items.FindAsync(id);
         if (item != null)
         {

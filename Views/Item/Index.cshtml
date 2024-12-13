@@ -4,7 +4,7 @@
 }
 
 <div class="d-flex justify-content-between" >
-    <h3>Index</h3>
+    <h3>Items</h3>
     <a href="@Context.Request.Path/create">
     <button class="btn btn-primary">Create New Item</button>
 </a>
@@ -20,6 +20,21 @@
             <th>
                 Price
             </th>
+            <th>
+                Serial Number Code Name 
+            </th>
+            <th>
+                Serial Number ID
+            </th>
+            <th>
+                Catogery
+            </th>
+            <th>
+                Client
+            </th>
+            <th>
+                Actions
+            </th>
         </tr>
         <tbody>
             @foreach(var item in Model) 
@@ -27,9 +42,15 @@
                 <tr>
                     <td>@item.name</td>
                     <td>@item.price.ToString("N2") $</td>
+                    <td>@item.SerialNumber?.Name</td>
+                    <td>@item.SerialNumber?.Id</td>
+                    <td>@item.Catogery?.Name</td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        @string.Join(" - ", item.ItemClients.Select(client => client.Client.Name))
+                    </td>
+                    <td>
+                        <a class="action-links" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="action-links-del" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>
             }

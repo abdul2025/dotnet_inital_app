@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestApp.Data;
 
@@ -11,9 +12,11 @@ using TestApp.Data;
 namespace TestApp.Migrations
 {
     [DbContext(typeof(MyAppContext))]
-    partial class MyAppContextModelSnapshot : ModelSnapshot
+    [Migration("20241213181619_one to many item to catogery")]
+    partial class onetomanyitemtocatogery
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,23 +54,6 @@ namespace TestApp.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TestApp.Models.Client", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Client");
-                });
-
             modelBuilder.Entity("TestApp.Models.Item", b =>
                 {
                     b.Property<int>("Id")
@@ -102,21 +88,6 @@ namespace TestApp.Migrations
                             name = "New Item PC",
                             price = 100.0
                         });
-                });
-
-            modelBuilder.Entity("TestApp.Models.ItemClient", b =>
-                {
-                    b.Property<int>("ItemId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ItemId", "ClientId");
-
-                    b.HasIndex("ClientId");
-
-                    b.ToTable("ItemClient");
                 });
 
             modelBuilder.Entity("TestApp.Models.SerialNumber", b =>
@@ -160,25 +131,6 @@ namespace TestApp.Migrations
                     b.Navigation("Catogery");
                 });
 
-            modelBuilder.Entity("TestApp.Models.ItemClient", b =>
-                {
-                    b.HasOne("TestApp.Models.Client", "Client")
-                        .WithMany("ItemClients")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TestApp.Models.Item", "Item")
-                        .WithMany("ItemClients")
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Client");
-
-                    b.Navigation("Item");
-                });
-
             modelBuilder.Entity("TestApp.Models.SerialNumber", b =>
                 {
                     b.HasOne("TestApp.Models.Item", "Item")
@@ -193,15 +145,8 @@ namespace TestApp.Migrations
                     b.Navigation("Items");
                 });
 
-            modelBuilder.Entity("TestApp.Models.Client", b =>
-                {
-                    b.Navigation("ItemClients");
-                });
-
             modelBuilder.Entity("TestApp.Models.Item", b =>
                 {
-                    b.Navigation("ItemClients");
-
                     b.Navigation("SerialNumber");
                 });
 #pragma warning restore 612, 618

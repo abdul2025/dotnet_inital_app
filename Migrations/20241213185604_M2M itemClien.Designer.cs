@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestApp.Data;
 
@@ -11,9 +12,11 @@ using TestApp.Data;
 namespace TestApp.Migrations
 {
     [DbContext(typeof(MyAppContext))]
-    partial class MyAppContextModelSnapshot : ModelSnapshot
+    [Migration("20241213185604_M2M itemClien")]
+    partial class M2MitemClien
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -114,8 +117,6 @@ namespace TestApp.Migrations
 
                     b.HasKey("ItemId", "ClientId");
 
-                    b.HasIndex("ClientId");
-
                     b.ToTable("ItemClient");
                 });
 
@@ -164,7 +165,7 @@ namespace TestApp.Migrations
                 {
                     b.HasOne("TestApp.Models.Client", "Client")
                         .WithMany("ItemClients")
-                        .HasForeignKey("ClientId")
+                        .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
