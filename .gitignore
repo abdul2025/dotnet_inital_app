@@ -1,0 +1,61 @@
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Dd]ist/
+[Dd]ebug/  # For build outputs
+[Dd]ebug/  # For build outputs
+[Dd]ebug/  # For build outputs
+bin/
+obj/
+
+# User-specific files
+.vs/
+.vscode/
+.idea/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# User-specific files
+.vs/
+.vscode/
+.idea/
+
+# JetBrains Rider
+.idea/
+
+# Microsoft Visual Studio for Mac config directory
+.vscode/
+
+# ASP.NET temporary files
+.tmp/
+
+# Node.js modules (if used)
+node_modules/
+
+# npm logs
+npm-debug.log
+
+# macOS system files
+.DS_Store
+
+# Windows Installer files
+Thumbs.db
+
+# User-specific config files
+*.user
+*.userosscache
+*.suo
+*.userprefs

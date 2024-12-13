@@ -1,0 +1,38 @@
+@model List<TestApp.Models.Item>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="d-flex justify-content-between" >
+    <h3>Index</h3>
+    <a href="@Context.Request.Path/create">
+    <button class="btn btn-primary">Create New Item</button>
+</a>
+
+    
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Price
+            </th>
+        </tr>
+        <tbody>
+            @foreach(var item in Model) 
+            {
+                <tr>
+                    <td>@item.name</td>
+                    <td>@item.price.ToString("N2") $</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </thead>
+</table>
